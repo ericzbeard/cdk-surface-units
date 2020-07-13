@@ -1,3 +1,9 @@
+bundles/
+resources.csv
+modules.csv
+create-report.js
+jsii/
+
 # Logs
 logs
 *.log

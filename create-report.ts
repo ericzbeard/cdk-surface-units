@@ -16,7 +16,7 @@ async function main() {
   const modulesCsv = fs.createWriteStream('modules.csv');
 
   resourceCsv.write(`service,resource,surface,stability\n`);
-  modulesCsv.write(`Service,Stability,Surface (props),Stable (props),Experimental (props),Coverage,Total SUs,Covered SUs\n`);
+  modulesCsv.write(`Service,Stability,Surface (props),Stable (props),Experimental (props),Deprecated (props),Coverage,Total SUs,Covered SUs\n`);
 
   // ready to explore!
   for (const a of ts.assemblies) {
@@ -29,6 +29,7 @@ async function main() {
     let totalCfn = 0;
     let totalStable = 0;
     let totalExperimental = 0;
+    let totalDeprecated = 0;
     let moduleStability = 'cfn-only';
 
     for (const cfn of a.classes) {
@@ -54,6 +55,9 @@ async function main() {
       } else if (stability === 'stable') {
         totalStable += propCount;
         moduleStability = 'stable';
+      } else if (stability === 'deprecated') {
+        totalDeprecated += propCount;
+        moduleStability = 'deprecated';
       } else {
         throw new Error(`unexpected stability ${stability}`);
       }
@@ -65,7 +69,7 @@ async function main() {
     const totalSU = Math.ceil(total / 10);
     const coveredSU = totalSU * coverage / 100;
 
-    modulesCsv.write(`${service},${moduleStability},${total},${totalStable},${totalExperimental},${coverage}%,${totalSU},${coveredSU}\n`);
+    modulesCsv.write(`${service},${moduleStability},${total},${totalStable},${totalExperimental},${totalDeprecated},${coverage}%,${totalSU},${coveredSU}\n`);
   }
 }
 
