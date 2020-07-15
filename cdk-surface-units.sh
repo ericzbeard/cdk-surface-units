@@ -2,10 +2,15 @@
 set -euo pipefail
 scriptdir="$(cd $(dirname $0) && pwd)"
 version="${1:-}"
+persist="${2:-}"
 if [ -z "${version}" ]; then
-  echo "Usage: $0 vVERSION"
-  echo "Example: $0 1.0.0"
+  echo "Usage: $0 VERSION csvonly|mysql|rest"
+  echo "Example: $0 1.0.0 csvonly"
   exit 1
+fi
+
+if [ -z "${persist}" ]; then
+  persist=csvonly
 fi
 
 bundle="aws-cdk-${version}.zip"
@@ -23,6 +28,6 @@ echo "Extracting all .jsii files from ${out}..."
 ${scriptdir}/extract-jsii.sh ${out}
 
 echo "Creating CSV report..."
-npm install
-npx ts-node ${scriptdir}/create-report.ts
-
+#npm install
+#npx ts-node ${scriptdir}/create-report.ts $persist
+node ${scriptdir}/create-report.js $persist

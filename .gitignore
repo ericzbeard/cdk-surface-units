@@ -2,7 +2,9 @@ bundles/
 resources.csv
 modules.csv
 create-report.js
+create-report.d.ts
 jsii/
+.env
 
 # Logs
 logs
