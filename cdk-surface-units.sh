@@ -30,4 +30,4 @@ ${scriptdir}/extract-jsii.sh ${out}
 echo "Creating CSV report..."
 #npm install
 #npx ts-node ${scriptdir}/create-report.ts $persist
-node ${scriptdir}/create-report.js $persist
+node ${scriptdir}/create-report.js $persist $version
