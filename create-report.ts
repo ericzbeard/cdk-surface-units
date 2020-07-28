@@ -162,7 +162,7 @@ async function main(persist: string, version: string) {
       m.patch = tokens[2];
 
       // Only save the module if it's the latest version
-      if (version == "1.51.0") {
+      if (version == "1.54.0") {
         await query("call module_save(?,?,?,?,?,?,?,?)", [
           m.module, // p_module
           m.stability, // p_stability
