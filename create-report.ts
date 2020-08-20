@@ -160,9 +160,11 @@ async function main(persist: string, version: string) {
       m.major = tokens[0];
       m.minor = tokens[1];
       m.patch = tokens[2];
+      
+      m.normver = `${m.major}`.padStart(3, '0') + '.' + `${m.minor}`.padStart(3, '0') + '.' + m.patch;
 
       // Only save the module if it's the latest version
-      if (version == "1.54.0") {
+      if (version == "1.60.0") {
         await query("call module_save(?,?,?,?,?,?,?,?)", [
           m.module, // p_module
           m.stability, // p_stability
@@ -211,7 +213,7 @@ async function main(persist: string, version: string) {
         //console.log(`Found module_history_id ${m.id} for ${m.module}`);
       }
       
-      await query("call module_history_save(?,?,?,?,?,?,?,?,?,?)", [
+      await query("call module_history_save(?,?,?,?,?,?,?,?,?,?,?)", [
         m.id, // p_id
         m.module, // p_module
         m.major, // p_major
@@ -222,6 +224,7 @@ async function main(persist: string, version: string) {
         m.num_stable_props, // p_num_stable_props
         m.num_deprecated_props, // p_num_deprecated_props
         m.num_experimental_props, // p_num_experimental_props
+        m.normver // p_normver
       ]);
 
       console.log(`Saved module history ${m.module} v${version}`);
